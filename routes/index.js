@@ -29,8 +29,8 @@ router.get('/logout', function (req, res) {
 router.get('/',
   ensureLoggedIn(),
   function (req, res) {
-    console.log('/login req', req.isAuthenticated ? req.isAuthenticated() : null)
-    res.render('index')
+    console.log('/ req.user', req.user)
+    res.render('index', req.user)
   }
 )
 
@@ -48,7 +48,7 @@ router.post('/register',
         }
 
         // req.login() can be used to automatically log the user in after registering
-        users.create(req.body.username, req.body.password)
+        users.create(req.body.username, req.body.email, req.body.password)
           .then(function () { return res.redirect('/login')} )
           .catch(function (err) {
             console.error(err)
