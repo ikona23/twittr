@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "NODE_ENV=test chimp --watch",
+    "test": "chimp --watch",
     "integration": "NODE_ENV=test ava ./tests/integration-tests.js --serial",
     "start": "nodemon server.js"
   },

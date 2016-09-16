@@ -9,7 +9,7 @@ module.exports = function () {
 
   this.registerHandler('BeforeFeatures', (features, callback) => {
     console.log('migrating...')
-    knex.migrate.latest()
+    knex.migrate.latest(knexConfig)
       .then(function () {
         return knex.seed.run()
       })
