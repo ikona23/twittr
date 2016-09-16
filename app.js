@@ -17,9 +17,11 @@ const apiRoutes = require('./routes/api')
 const indexRoutes = require('./routes')
 
 const app = express()
-app.engine('hbs', hbs())
-app.set('view engine', 'hbs')
+app.engine('handlebars', hbs({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
 app.set('views', path.join(__dirname, 'views'))
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(expressSession({
   resave: false,
