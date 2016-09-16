@@ -13,19 +13,21 @@ module.exports = function () {
     // browser.url(Url.format(extend(config.proxy, { pathname: pathname })))
   })
 
-  this.Then('I am viewing the page at "$string"', function (pathname) {
-    console.log('pathname', pathname)
-    browser.url(`http://localhost:5050${pathname}`) // hardcoded localhost
-    // real world example below
-    // browser.url(Url.format(extend(config.proxy, { pathname: pathname })))
+  this.When('I click on the link "$string"', function (text) {
+    browser.click(`a[href="${text}"]`)
   })
 
-  this.When('I click on the link with value "$string"', function (value) {
-    browser.click(`a[href="${value}"]`)
+  this.When('I click on the input with value "$string"', function (text) {
+    browser.click(`input[value="${text}"]`)
   })
 
-  this.Then('I can see the input with value "$string"', function (text, callback) {
-    var inputExists = browser.waitForExist(`input=[value="${text}"`)
+  this.Then('I can see an input named "$string"', function (text, callback) {
+    var inputExists = browser.waitForExist(`input[name="${text}"`)
+    assert.equal(inputExists, true, callback)
+  })
+
+  this.Then('I can see the p item with value "$string"', function (text, callback) {
+    var inputExists = browser.waitForExist(`p=${text}`)
     assert.equal(inputExists, true, callback)
   })
 
