@@ -1,37 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <h1>Twittr</h1>
-    <p>Welcome {{username}}, email: {{email}}</p>
-    <p><a href="/logout">Logout</a></p>
-    <form action="addPost" class="messageBody" method="post">
-        <textarea class="wideInput"></textarea><br>
-        <button type="button">Add post</button>
-    </form>
-    <div class="messages">
-        <hr class="line">
-        <p class="date">24.12.2016</p>
-        <p class="wideInput">Veggies es bonus vobis, proinde vos postulo essum
-        magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki
-        bean garlic.</p>
-        <hr class="line">
-        <p class="date">24.12.2016</p>
-        <p class="wideInput">Veggies es bonus vobis, proinde vos postulo essum
-        magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki
-        bean garlic.</p>
-        <hr class="line">
-        <p class="date">24.12.2016</p>
-        <p class="wideInput">Veggies es bonus vobis, proinde vos postulo essum
-        magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki
-        bean garlic.</p>
-        <hr class="line">
-        <p class="date">24.12.2016</p>
-        <p class="wideInput">Veggies es bonus vobis, proinde vos postulo essum
-        magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki
-        bean garlic.</p>
-    </div>
-</body>
-</html>
+<h1>Twittr</h1>
+<p>Welcome {{user.username}}, email: {{user.email}}</p>
+<p><a href="/logout">Logout</a></p>
+<form action="addPost" class="messageBody" method="post">
+  <!-- //create hidden input for parsing user_id = it can match with the post -->
+    <input type="hidden" name="user_id" value="{{user.id}}">
+    <textarea class="wideInput" name="body"></textarea><br>
+    <input type="submit" value="Add post">
+</form>
+<div class="messages">
+    {{#each posts}}
+      <hr class="line">
+      <p class="date">{{this.created_at}}</p>
+      <p>{{this.body}}</p>
+    {{/each}}
+</div>
