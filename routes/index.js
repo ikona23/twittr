@@ -36,7 +36,7 @@ router.get('/',
 
       var newPosts = posts.map(function(post) {
         var date = new Date(post['created_at'])
-        post['created_at'] = date.toTimeString()
+        post['created_at'] = date.toString()
         return post
       })
 
