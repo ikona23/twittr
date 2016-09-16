@@ -3,7 +3,7 @@ const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 const express = require('express')
 const passport = require('passport')
 const users = require('../lib/users')
-
+var Post = require('../lib/posts')
 const router = express.Router()
 module.exports = router
 router.use(bodyParser.urlencoded({ extended: false }))
@@ -29,11 +29,33 @@ router.get('/logout', function (req, res) {
 router.get('/',
   ensureLoggedIn(),
   function (req, res) {
-    console.log('/ req.user', req.user)
-    res.render('index', req.user)
+    Post.query()
+    .where('user_id', req.user.id)
+    .orderBy('created_at', 'desc')
+    .then(function (posts) {
+
+      var newPosts = posts.map(function(post) {
+        var date = new Date(post['created_at'])
+        post['created_at'] = date.toTimeString()
+        return post
+      })
+
+      res.render('index', {user: req.user, posts: newPosts})
+    })
+
   }
 )
+router.post('/addPost', function(req, res, next) {
+  console.log(req.body);
+  req.body.user_id = Number(req.body.user_id)
+  req.body.created_at = Date.now()
+  // res.send('got post')
+  Post.query()
+  .insert (req.body).then(function(){
+    res.redirect('/')
+  })
 
+})
 router.get('/register', function (req, res) {
   res.render('register', { flash: req.flash('error') })
 })

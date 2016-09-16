@@ -6,3 +6,21 @@ body {
 a {
   color: #00B7FF;
 }
+.wideInput {
+  text-align: left;
+  padding-left:0;
+  padding-top:0;
+  padding-bottom:0.4em;
+  padding-right: 0.4em;
+  width: 400px;
+  height: 100px;
+}
+
+input {
+  margin: 10px;
+}
+
+.line {
+  /*width:200px;*/
+}
+/*<textarea class="wideInput" ></textarea>
