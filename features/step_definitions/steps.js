@@ -7,7 +7,6 @@ var config = require('../../config')
 module.exports = function () {
 
   this.Given('I am viewing the page at "$string"', function (pathname) {
-    console.log('pathname', pathname)
     browser.url(`http://localhost:5050${pathname}`) // hardcoded localhost
     // real world example below
     // browser.url(Url.format(extend(config.proxy, { pathname: pathname })))

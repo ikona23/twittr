@@ -8,12 +8,18 @@ var config = {directory: '../db/migrations'}
 var tableName = Post.tableName
 
 test.beforeEach(function () {
-  return knex.migrate.latest(config) // create the tables on the test database
+  return knex.migrate.latest(config).then(function () {
+      return knex.seed.run().then(function() {
+        console.log('Integration test db migration done...');
+      })
+  }) // create the tables on the test database
 })
 
 // drop the tables on the test database
 test.afterEach.always(function () {
-  return knex.migrate.rollback(config)
+  return knex.migrate.rollback(config).then(function () {
+    console.log('db rollback...');
+  })
 })
 
 // instance tests

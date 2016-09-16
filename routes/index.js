@@ -9,7 +9,6 @@ module.exports = router
 router.use(bodyParser.urlencoded({ extended: false }))
 
 router.get('/login', function (req, res) {
-  console.log('/login req', req.isAuthenticated ? req.isAuthenticated() : null)
   res.render('login', { flash: req.flash('error') })
 })
 
@@ -46,7 +45,6 @@ router.get('/',
   }
 )
 router.post('/addPost', function(req, res, next) {
-  console.log(req.body);
   req.body.user_id = Number(req.body.user_id)
   req.body.created_at = Date.now()
   // res.send('got post')

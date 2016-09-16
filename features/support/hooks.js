@@ -2,28 +2,30 @@ var config = require('../../config')
 var app = require('../../app')
 var knex = require('../../db') // yet to be added
 
-var knexConfig = {directory: './db/migrations'}
 var server
 
 module.exports = function () {
-
-  this.registerHandler('BeforeFeatures', (features, callback) => {
+  this.Before(function (scenario, callback) {
     console.log('migrating...')
-    knex.migrate.latest(knexConfig)
-      .then(function () {
-        return knex.seed.run()
-      })
-      .then(function () {
-        console.log('server starting....')
-        server = app.listen(config.proxy.port, function () {
+    knex.migrate.rollback().then(function() {
+      knex.migrate.latest()
+        .then(function () {
+          return knex.seed.run()
+        })
+        .then(function () {
+          console.log('features test migration done...')
+          console.log('server starting....')
+          server = app.listen(config.proxy.port, function () {
           callback()
+        })
       })
     })
-  })
 
-  this.registerHandler('AfterFeatures', (features, callback) => {
-    knex.migrate.rollback(knexConfig)
+  })
+  this.After(function (scenario, callback) {
+    knex.migrate.rollback()
       .then(function () {
+        console.log('features test rollback done');
         console.log('server stopping....')
         server.close()
         callback()
